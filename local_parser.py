@@ -76,22 +76,22 @@ of the necessary SQL tables for your database.
 def parseJson(json_file):
     print("parseJson")
     with open(json_file, 'r') as f:
-        pass
-    file = open("datFiles/file1.dat", "w") 
-    file.write("A|B|C|D") 
-    file.close() 
+        items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
+
+        rows = ""
+        for item in items:
+            # print(item.keys())
+            rows = rows + item["ItemID"] + "|" + item["Name"] + "|" + item["Currently"] + "\n"; 
         
-#         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
-#         for item in items:
-#             print(item.keys())
-            
-#             break
-#             """
-#             TODO: traverse the items dictionary to extract information from the
-#             given `json_file' and generate the necessary .dat files to generate
-#             the SQL tables based on your relation design
-#             """
-#             pass
+        # print("ROW: ", rows); 
+        with open("datFiles/file1.dat", "w") as f: 
+            f.write(rows)
+
+
+# write string to .dat file 
+    # file = open("datFiles/file1.dat", "w") 
+    # file.write("A|B|C|D") 
+    # file.close() 
 
 """
 Loops through each json files provided on the command line and passes each file
