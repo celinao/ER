@@ -79,12 +79,44 @@ def parseJson(json_file):
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
 
         rows = ""
+
+
         for item in items:
             # print(item.keys())
-            rows = rows + item["ItemID"] + "|" + item["Name"] + "|" + item["Currently"] + "\n"; 
-        
-        # Saves the string rows as a .dat file 
-        with open("datFiles/file1.dat", "w") as f: 
+
+            # adds attributes to Item
+            rows = rows + item["ItemID"] + "|" + item["Name"] + "|" + item["Seller"]["UserID"] + "|"
+
+
+            # adds each category to attribute
+            for cat in item["Category"]:
+                rows = rows + cat + ","
+            rows += "|"
+
+            # adds formatted money attributes
+            rows = rows + transformDollar(item["Currently"]) + "|" + transformDollar(item["First_Bid"]) + "|" + item["Number_of_Bids"] + "|"
+
+            # adds formatted date attributes
+            rows = rows + transformDttm(item["Started"]) + "|" + transformDttm(item["Ends"]) + "|"
+
+            # adds buy price if sold
+            try:
+                rows = rows + item["Buy_Price"] + "|"
+            except:
+                rows = rows + "NULL" + "|"
+
+            # adds description if exists
+            if item["Description"] == None:
+                rows = rows + "Empty" + "\n"
+            else:
+                rows = rows + item["Description"] + "\n"
+
+            # escapes quotes
+            rows.replace('\"', '\\"')
+
+
+        # Saves the string rows as a .dat file
+        with open("datFiles/file1.dat", "w") as f:
             f.write(rows)
 
 """
