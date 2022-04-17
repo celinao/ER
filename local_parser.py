@@ -83,15 +83,9 @@ def parseJson(json_file):
             # print(item.keys())
             rows = rows + item["ItemID"] + "|" + item["Name"] + "|" + item["Currently"] + "\n"; 
         
-        # print("ROW: ", rows); 
+        # Saves the string rows as a .dat file 
         with open("datFiles/file1.dat", "w") as f: 
             f.write(rows)
-
-
-# write string to .dat file 
-    # file = open("datFiles/file1.dat", "w") 
-    # file.write("A|B|C|D") 
-    # file.close() 
 
 """
 Loops through each json files provided on the command line and passes each file

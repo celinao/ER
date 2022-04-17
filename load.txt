@@ -1,0 +1,2 @@
+.separator | 
+.import datFiles/file1.dat Item
