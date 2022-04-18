@@ -27,6 +27,7 @@ Happy parsing!
 import sys
 from json import loads
 from re import sub
+from unicodedata import category
 
 columnSeparator = "|"
 
@@ -78,46 +79,50 @@ def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
 
-        rows = ""
-
+        # Create strings for each row 
+        item_string = ""
+        # categories = ""
+        # bids = ""
+        # users = ""
+        
+        sep = "|"
 
         for item in items:
-            # print(item.keys())
+            # Create lists for each table -> we can join them later with "|".join(list)
+            item_row = []
+            category_row = []
+            bid_row = []
+            user_row = []
 
             # adds attributes to Item
-            rows = rows + item["ItemID"] + "|" + item["Name"] + "|" + item["Seller"]["UserID"] + "|"
+            item_row.append(item["ItemID"])
+            item_row.append(item["Name"])
+            item_row.append(transformDollar(item["Currently"]))
 
-
-            # adds each category to attribute
-            for cat in item["Category"]:
-                rows = rows + cat + ","
-            rows += "|"
-
-            # adds formatted money attributes
-            rows = rows + transformDollar(item["Currently"]) + "|" + transformDollar(item["First_Bid"]) + "|" + item["Number_of_Bids"] + "|"
-
-            # adds formatted date attributes
-            rows = rows + transformDttm(item["Started"]) + "|" + transformDttm(item["Ends"]) + "|"
-
-            # adds buy price if sold
-            try:
-                rows = rows + item["Buy_Price"] + "|"
+            # Buy_Price may be missing if not set by seller 
+            try: 
+                item_row.append(transformDollar(item["Buy_Price"])) 
             except:
-                rows = rows + "NULL" + "|"
+                item_row.append("NULL") 
+
+            item_row.append(transformDollar(item["First_Bid"])) 
+            item_row.append(item["Number_of_Bids"])
+            item_row.append(transformDttm(item["Started"]))
+            item_row.append(transformDttm(item["Ends"]))
+            item_row.append(item["Seller"]["UserID"])
 
             # adds description if exists
             if item["Description"] == None:
-                rows = rows + "Empty" + "\n"
+                item_row.append("Empty")
             else:
-                rows = rows + item["Description"] + "\n"
+                item_row.append(item["Description"]) 
 
-            # escapes quotes
-            rows.replace('\"', '\\"')
+            # Join Attributes & escapes quotes
+            item_string = item_string + sep.join(item_row).replace('\"', '\\"') + "\n"
 
-
-        # Saves the string rows as a .dat file
-        with open("datFiles/file1.dat", "w") as f:
-            f.write(rows)
+        # Saves the string items to a .dat file
+        with open("datFiles/items.dat", "w") as f:
+            f.write(item_string)
 
 """
 Loops through each json files provided on the command line and passes each file
