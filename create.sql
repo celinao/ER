@@ -1,4 +1,5 @@
 drop table if exists Item; 
+drop table if exists Categories; 
 
 -- Creates Item Table: Does not have every column added yet, still need to add more 
 create table Item 
@@ -16,23 +17,17 @@ create table Item
     PRIMARY KEY (ItemID)
 );
 
--- create table Item 
--- (
---     ItemID INT NOT NULL UNIQUE, 
---     ItemName VARCHAR(256) NOT NULL,
---     Currently DOUBLE NOT NULL, 
---     BuyPrice DOUBLE, 
---     FirstBid DOUBLE NOT NULL, 
---     NumberOfBids INT NOT NULL, 
---     StartTime datetime not null, 
---     EndTime datetime not null, 
---     UserID int NOT NULL, 
---     ItemDescription VARCHAR(1000) NOT NULL, 
---     PRIMARY KEY (ItemID)
--- );
+-- add Category Table 
+create table Categories 
+(
+    CategoryID VARCHAR(256) NOT NULL UNIQUE, 
+    ItemID INT NOT NULL, 
+    Category VARCHAR(256) NOT NULL, 
+    PRIMARY KEY (CategoryID)
+);
+
+
 
 -- add Person Table
 
 -- add Bid Table 
-
--- add Category Table 

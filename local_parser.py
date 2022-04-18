@@ -75,13 +75,13 @@ item in the data set. Your job is to extend this functionality to create all
 of the necessary SQL tables for your database.
 """
 def parseJson(json_file):
-    print("parseJson")
+    
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
 
         # Create strings for each row 
         item_string = ""
-        # categories = ""
+        categories = ""
         # bids = ""
         # users = ""
         
@@ -90,7 +90,6 @@ def parseJson(json_file):
         for item in items:
             # Create lists for each table -> we can join them later with "|".join(list)
             item_row = []
-            category_row = []
             bid_row = []
             user_row = []
 
@@ -117,12 +116,18 @@ def parseJson(json_file):
             else:
                 item_row.append(item["Description"]) 
 
-            # Join Attributes & escapes quotes
+            # Join Attributes & escapes quotes 
             item_string = item_string + sep.join(item_row).replace('\"', '\\"') + "\n"
 
+            for cat in item["Category"]: 
+                categories = categories + item["ItemID"] + cat + "|" + item["ItemID"] + "|" + cat + "\n"
+
         # Saves the string items to a .dat file
-        with open("datFiles/items.dat", "w") as f:
+        with open("datFiles/items.dat", "a") as f:
             f.write(item_string)
+
+        with open("datFiles/categories.dat", "a") as f:
+            f.write(categories)
 
 """
 Loops through each json files provided on the command line and passes each file
@@ -136,7 +141,7 @@ def main(argv):
     for f in argv[1:]:
         if isJson(f):
             parseJson(f)
-#             print "Success parsing " + f
+            print("Success parsing " + f)
 
 if __name__ == '__main__':
     main(sys.argv)
