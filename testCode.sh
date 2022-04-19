@@ -1,4 +1,5 @@
 #!/bin/bash 
+rm -rf ebay
 
 # Runs the parser to create .dat files 
 ./runParser.sh 

@@ -90,7 +90,6 @@ def parseJson(json_file):
         for item in items:
             # Create lists for each table -> we can join them later with "|".join(list)
             item_row = []
-            user_row = []
 
             # adds attributes to Item
             item_row.append(item["ItemID"])
@@ -126,8 +125,10 @@ def parseJson(json_file):
             if item["Bids"]:
                 for bid_val in item["Bids"]:
                     bid_row = []
+                    bidder_row = []
 
                     if bid_val != None:
+                        # Bids Table 
                         bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + str(transformDollar(bid_val["Bid"]["Amount"])))
                         bid_row.append(item["ItemID"])
                         bid_row.append(bid_val["Bid"]["Bidder"]["UserID"])
@@ -137,12 +138,33 @@ def parseJson(json_file):
                         # Join Bid Attributes
                         bid_string = bid_string + sep.join(bid_row).replace('\"', '\\"') + "\n"
 
+                        # User Table 
+                        bidder_row.append(bid_val["Bid"]["Bidder"]["UserID"])
+                        bidder_row.append(bid_val["Bid"]["Bidder"]["Rating"])
+                        try: 
+                            bidder_row.append(bid_val["Country"])
+                        except: 
+                            bidder_row.append("NULL")
+                        try: 
+                            bidder_row.append(bid_val["Bid"]["Bidder"]["Location"])
+                        except: 
+                            bidder_row.append("NULL")
+
+                        users = users + sep.join(bidder_row).replace('\"', '\\"') + "\n"
+                        
 
             # Attrivutes for user
+            user_row = []
             user_row.append(item["Seller"]["UserID"])
             user_row.append(item["Seller"]["Rating"])
-            user_row.append(item["Country"])
-            user_row.append(item["Location"])
+            try: 
+                user_row.append(bid_val["Country"])
+            except: 
+                user_row.append("NULL")
+            try: 
+                user_row.append(bid_val["Location"])
+            except: 
+                user_row.append("NULL")
 
             users = users + sep.join(user_row).replace('\"', '\\"') + "\n"
 

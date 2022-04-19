@@ -11,7 +11,7 @@ create table Items
     ItemName VARCHAR(256),
     Currently DOUBLE, 
     BuyPrice DOUBLE, 
-    FirstBid DOUBLE, 
+    FirstBid DOUBLE NOT NULL, 
     NumberOfBids INT, 
     StartTime datetime, 
     EndTime datetime, 
@@ -42,14 +42,12 @@ create table Bids
     FOREIGN KEY(ItemID) references Items
 );
 
-
-
 -- add Person Table
-create table User
+create table Users
 (
     UserID VARCHAR(256) NOT NULL UNIQUE,
     Rating INT NOT NULL,
-    Country VARCHAR(256) NOT NULL,
-    Location VARCHAR(256) NOT NULL,
+    Country VARCHAR(256),
+    Location VARCHAR(256),
     PRIMARY KEY(UserID)
 );

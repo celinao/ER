@@ -1,5 +1,11 @@
 .separator | 
 .import datFiles/items.dat Items
-update Item set BuyPrice = null where BuyPrice = "NULL"; 
-.import datFiles/categories.dat Categories
-.import datFiles/bids.dat Bids
+update Items set BuyPrice = null where BuyPrice = "NULL"; 
+
+.import datFiles/categories.dat Categories; 
+
+.import datFiles/bids.dat Bids; 
+
+.import datFiles/users.dat Users
+update Items set Country = null where Country = "NULL"
+update Items set Location = null where Location = "NULL"; 
