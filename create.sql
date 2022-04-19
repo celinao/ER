@@ -1,8 +1,9 @@
-drop table if exists Item; 
+drop table if exists Items; 
 drop table if exists Categories; 
+drop table if exists Bids; 
 
 -- Creates Item Table: Does not have every column added yet, still need to add more 
-create table Item 
+create table Items 
 (
     ItemID INT NOT NULL UNIQUE, 
     ItemName VARCHAR(256),
@@ -23,11 +24,22 @@ create table Categories
     CategoryID VARCHAR(256) NOT NULL UNIQUE, 
     ItemID INT NOT NULL, 
     Category VARCHAR(256) NOT NULL, 
-    PRIMARY KEY (CategoryID)
+    PRIMARY KEY (CategoryID),     
+    FOREIGN KEY(ItemID) references Items
 );
+
+-- add Bid Table 
+create table Bids
+(
+    BidID VARCHAR(256) NOT NULL UNIQUE, 
+    ItemID INT NOT NULL, 
+    UserID INT NOT NULL, 
+    Amount DOUBLE NOT NULL, 
+    bidTime datetime NOT NULL, 
+    PRIMARY KEY(BidID), 
+    FOREIGN KEY(ItemID) references Items
+)
 
 
 
 -- add Person Table
-
--- add Bid Table 

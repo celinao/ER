@@ -82,7 +82,7 @@ def parseJson(json_file):
         # Create strings for each row
         item_string = ""
         categories = ""
-        # bids = ""
+        bid_string = ""
         # users = ""
 
         sep = "|"
@@ -90,7 +90,6 @@ def parseJson(json_file):
         for item in items:
             # Create lists for each table -> we can join them later with "|".join(list)
             item_row = []
-            bid_row = []
             user_row = []
 
             # adds attributes to Item
@@ -119,12 +118,14 @@ def parseJson(json_file):
             # Join Attributes & escapes quotes
             item_string = item_string + sep.join(item_row).replace('\"', '\\"') + "\n"
 
+            # Create Category Table 
             for cat in item["Category"]:
                 categories = categories + item["ItemID"] + cat + "|" + item["ItemID"] + "|" + cat + "\n"
 
-            # Adds attributes for Bids
+            # Adds attributes for Bids Table
             if item["Bids"]:
                 for bid_val in item["Bids"]:
+                    bid_row = []
 
                     if bid_val != None:
                         bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + str(transformDollar(bid_val["Bid"]["Amount"])))
@@ -135,8 +136,6 @@ def parseJson(json_file):
 
                         # Join Bid Attributes
                         bid_string = bid_string + sep.join(bid_row).replace('\"', '\\"') + "\n"
-
-
 
         # Saves the string items to a .dat file
         with open("datFiles/items.dat", "a") as f:

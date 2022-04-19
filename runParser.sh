@@ -1,7 +1,6 @@
 #!/bin/bash 
 
-rm -f datFiles/categories.dat 
-rm -f datFiles/items.dat 
+rm -f datFiles/*.dat 
 
 # Runs the parser on one json file. 
 python local_parser.py ebay_data/items-0.json 

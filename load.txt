@@ -1,4 +1,5 @@
 .separator | 
+.import datFiles/items.dat Items
+update Item set BuyPrice = null where BuyPrice = "NULL"; 
 .import datFiles/categories.dat Categories
-.import datFiles/items.dat Item
-update Item set BuyPrice = null where BuyPrice = "NULL"
+.import datFiles/bids.dat Bids
