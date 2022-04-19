@@ -75,16 +75,16 @@ item in the data set. Your job is to extend this functionality to create all
 of the necessary SQL tables for your database.
 """
 def parseJson(json_file):
-    
+
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
 
-        # Create strings for each row 
+        # Create strings for each row
         item_string = ""
         categories = ""
         # bids = ""
         # users = ""
-        
+
         sep = "|"
 
         for item in items:
@@ -98,13 +98,13 @@ def parseJson(json_file):
             item_row.append(item["Name"])
             item_row.append(transformDollar(item["Currently"]))
 
-            # Buy_Price may be missing if not set by seller 
-            try: 
-                item_row.append(transformDollar(item["Buy_Price"])) 
+            # Buy_Price may be missing if not set by seller
+            try:
+                item_row.append(transformDollar(item["Buy_Price"]))
             except:
-                item_row.append("NULL") 
+                item_row.append("NULL")
 
-            item_row.append(transformDollar(item["First_Bid"])) 
+            item_row.append(transformDollar(item["First_Bid"]))
             item_row.append(item["Number_of_Bids"])
             item_row.append(transformDttm(item["Started"]))
             item_row.append(transformDttm(item["Ends"]))
@@ -114,13 +114,29 @@ def parseJson(json_file):
             if item["Description"] == None:
                 item_row.append("Empty")
             else:
-                item_row.append(item["Description"]) 
+                item_row.append(item["Description"])
 
-            # Join Attributes & escapes quotes 
+            # Join Attributes & escapes quotes
             item_string = item_string + sep.join(item_row).replace('\"', '\\"') + "\n"
 
-            for cat in item["Category"]: 
+            for cat in item["Category"]:
                 categories = categories + item["ItemID"] + cat + "|" + item["ItemID"] + "|" + cat + "\n"
+
+            # Adds attributes for Bids
+            if item["Bids"]:
+                for bid_val in item["Bids"]:
+
+                    if bid_val != None:
+                        bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + str(transformDollar(bid_val["Bid"]["Amount"])))
+                        bid_row.append(item["ItemID"])
+                        bid_row.append(bid_val["Bid"]["Bidder"]["UserID"])
+                        bid_row.append(transformDollar(bid_val["Bid"]["Amount"]))
+                        bid_row.append(transformDttm(bid_val["Bid"]["Time"]))
+
+                        # Join Bid Attributes
+                        bid_string = bid_string + sep.join(bid_row).replace('\"', '\\"') + "\n"
+
+
 
         # Saves the string items to a .dat file
         with open("datFiles/items.dat", "a") as f:
@@ -128,6 +144,9 @@ def parseJson(json_file):
 
         with open("datFiles/categories.dat", "a") as f:
             f.write(categories)
+
+        with open("datFiles/bids.dat", "a") as f:
+            f.write(bid_string)
 
 """
 Loops through each json files provided on the command line and passes each file
