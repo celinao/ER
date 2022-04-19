@@ -1,0 +1,1 @@
+-- Find the number of sellers whose rating is higher than 1000

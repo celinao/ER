@@ -1,1 +1,2 @@
-select count(*) from Item;
+-- Find the number of users in the database 
+select count(*) from Items;
