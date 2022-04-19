@@ -129,7 +129,7 @@ def parseJson(json_file):
 
                     if bid_val != None:
                         # Bids Table 
-                        bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + str(transformDollar(bid_val["Bid"]["Amount"])))
+                        bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + item["ItemID"] + bid_val["Bid"]["Amount"])
                         bid_row.append(item["ItemID"])
                         bid_row.append(bid_val["Bid"]["Bidder"]["UserID"])
                         bid_row.append(transformDollar(bid_val["Bid"]["Amount"]))
