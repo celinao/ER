@@ -83,7 +83,7 @@ def parseJson(json_file):
         item_string = ""
         categories = ""
         bid_string = ""
-        # users = ""
+        users = ""
 
         sep = "|"
 
@@ -137,6 +137,16 @@ def parseJson(json_file):
                         # Join Bid Attributes
                         bid_string = bid_string + sep.join(bid_row).replace('\"', '\\"') + "\n"
 
+
+            # Attrivutes for user
+            user_row.append(item["Seller"]["UserID"])
+            user_row.append(item["Seller"]["Rating"])
+            user_row.append(item["Country"])
+            user_row.append(item["Location"])
+
+            users = users + sep.join(user_row).replace('\"', '\\"') + "\n"
+
+
         # Saves the string items to a .dat file
         with open("datFiles/items.dat", "a") as f:
             f.write(item_string)
@@ -146,6 +156,9 @@ def parseJson(json_file):
 
         with open("datFiles/bids.dat", "a") as f:
             f.write(bid_string)
+
+        with open("datFiles/users.dat", "a") as f:
+            f.write(users)
 
 """
 Loops through each json files provided on the command line and passes each file

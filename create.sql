@@ -1,6 +1,8 @@
-drop table if exists Items; 
-drop table if exists Categories; 
-drop table if exists Bids; 
+drop table if exists Items;
+drop table if exists Categories;
+drop table if exists Bids;
+drop table if exists Users;
+
 
 -- Creates Item Table: Does not have every column added yet, still need to add more 
 create table Items 
@@ -38,8 +40,16 @@ create table Bids
     bidTime datetime NOT NULL, 
     PRIMARY KEY(BidID), 
     FOREIGN KEY(ItemID) references Items
-)
+);
 
 
 
 -- add Person Table
+create table User
+(
+    UserID VARCHAR(256) NOT NULL UNIQUE,
+    Rating INT NOT NULL,
+    Country VARCHAR(256) NOT NULL,
+    Location VARCHAR(256) NOT NULL,
+    PRIMARY KEY(UserID)
+);
