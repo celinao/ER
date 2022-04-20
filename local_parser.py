@@ -83,7 +83,8 @@ def parseJson(json_file):
         item_string = ""
         categories = ""
         bid_string = ""
-        users = ""
+        bidders = ""
+        sellers = ""
 
         sep = "|"
 
@@ -150,23 +151,17 @@ def parseJson(json_file):
                         except: 
                             bidder_row.append("NULL")
 
-                        users = users + sep.join(bidder_row).replace('\"', '\\"') + "\n"
+                        bidders = bidders + sep.join(bidder_row).replace('\"', '\\"') + "\n"
                         
 
             # Attrivutes for user
-            user_row = []
-            user_row.append(item["Seller"]["UserID"])
-            user_row.append(item["Seller"]["Rating"])
-            try: 
-                user_row.append(bid_val["Country"])
-            except: 
-                user_row.append("NULL")
-            try: 
-                user_row.append(bid_val["Location"])
-            except: 
-                user_row.append("NULL")
+            seller_row = []
+            seller_row.append(item["Seller"]["UserID"])
+            seller_row.append(item["Seller"]["Rating"])
+            seller_row.append(item["Country"])
+            seller_row.append(item["Location"])
 
-            users = users + sep.join(user_row).replace('\"', '\\"') + "\n"
+            sellers = sellers + sep.join(seller_row).replace('\"', '\\"') + "\n"
 
 
         # Saves the string items to a .dat file
@@ -179,8 +174,11 @@ def parseJson(json_file):
         with open("datFiles/bids.dat", "a") as f:
             f.write(bid_string)
 
-        with open("datFiles/users.dat", "a") as f:
-            f.write(users)
+        with open("datFiles/bidder.dat", "a") as f:
+            f.write(bidders)
+
+        with open("datFiles/seller.dat", "a") as f:
+            f.write(sellers)
 
 """
 Loops through each json files provided on the command line and passes each file

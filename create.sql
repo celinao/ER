@@ -1,7 +1,8 @@
 drop table if exists Items;
 drop table if exists Categories;
 drop table if exists Bids;
-drop table if exists Users;
+drop table if exists Bidders;
+drop table if exists Sellers;
 
 
 -- Creates Item Table: Does not have every column added yet, still need to add more 
@@ -42,12 +43,23 @@ create table Bids
     FOREIGN KEY(ItemID) references Items
 );
 
--- add Person Table
-create table Users
+-- add Bidder Table
+create table Bidders
 (
     UserID VARCHAR(256) NOT NULL UNIQUE,
     Rating INT NOT NULL,
     Country VARCHAR(256),
     Location VARCHAR(256),
     PRIMARY KEY(UserID)
+);
+
+-- add Seller Table
+create table Sellers
+(
+    UserID VARCHAR(256) NOT NULL UNIQUE,
+    Rating INT NOT NULL,
+    Country VARCHAR(256) NOT NULL,
+    Location VARCHAR(256) NOT NULL,
+    PRIMARY KEY(UserID), 
+    FOREIGN KEY(UserID) references Bidders
 );
