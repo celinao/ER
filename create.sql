@@ -5,45 +5,43 @@ drop table if exists Bidders;
 drop table if exists Sellers;
 
 
--- Creates Item Table: Does not have every column added yet, still need to add more 
+-- Create Item Table
 create table Items 
 (
     ItemID INT NOT NULL UNIQUE, 
     ItemName VARCHAR(256),
-    Currently DOUBLE, 
-    BuyPrice DOUBLE, 
-    FirstBid DOUBLE NOT NULL, 
-    NumberOfBids INT, 
-    StartTime datetime, 
-    EndTime datetime, 
-    UserID int, 
-    ItemDescription VARCHAR(1000), 
+    Currently DOUBLE NOT NULL, 
+    Buy_Price DOUBLE, 
+    First_Bid DOUBLE NOT NULL, 
+    Number_of_Bids INT NOT NULL, 
+    Started datetime NOT NULL, 
+    Ends datetime NOT NULL, 
+    UserID int NOT NULL, 
+    ItemDescription VARCHAR(1000) NOT NULL, 
     PRIMARY KEY (ItemID)
 );
 
--- add Category Table 
+-- Create Category Table 
 create table Categories 
 (
-    CategoryID VARCHAR(256) NOT NULL UNIQUE, 
     ItemID INT NOT NULL, 
     Category VARCHAR(256) NOT NULL, 
-    PRIMARY KEY (CategoryID),     
+    PRIMARY KEY (ItemID, Category),     
     FOREIGN KEY(ItemID) references Items
 );
 
--- add Bid Table 
+-- Create Bid Table 
 create table Bids
 (
-    BidID VARCHAR(256) NOT NULL UNIQUE, 
     ItemID INT NOT NULL, 
     UserID INT NOT NULL, 
     Amount DOUBLE NOT NULL, 
     bidTime datetime NOT NULL, 
-    PRIMARY KEY(BidID), 
+    PRIMARY KEY(ItemID, UserID, Amount), 
     FOREIGN KEY(ItemID) references Items
 );
 
--- add Bidder Table
+-- Create Bidder Table
 create table Bidders
 (
     UserID VARCHAR(256) NOT NULL UNIQUE,
@@ -53,7 +51,7 @@ create table Bidders
     PRIMARY KEY(UserID)
 );
 
--- add Seller Table
+-- Create Seller Table
 create table Sellers
 (
     UserID VARCHAR(256) NOT NULL UNIQUE,

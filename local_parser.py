@@ -120,7 +120,7 @@ def parseJson(json_file):
 
             # Create Category Table 
             for cat in item["Category"]:
-                categories = categories + item["ItemID"] + cat + "|" + item["ItemID"] + "|" + cat + "\n"
+                categories = categories + item["ItemID"] + "|" + cat + "\n"
 
             # Adds attributes for Bids Table
             if item["Bids"]:
@@ -130,7 +130,6 @@ def parseJson(json_file):
 
                     if bid_val != None:
                         # Bids Table 
-                        bid_row.append(str(bid_val["Bid"]["Bidder"]["UserID"]) + item["ItemID"] + bid_val["Bid"]["Amount"])
                         bid_row.append(item["ItemID"])
                         bid_row.append(bid_val["Bid"]["Bidder"]["UserID"])
                         bid_row.append(transformDollar(bid_val["Bid"]["Amount"]))

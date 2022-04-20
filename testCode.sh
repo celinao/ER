@@ -13,7 +13,6 @@ sqlite3 ebay < load.txt
 # Runs the queries and prints output to console
 for i in {1..7}
     do 
-        echo "Question $i"
         sqlite3 ebay < query$i.sql
     done 
 

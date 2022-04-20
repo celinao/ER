@@ -1,4 +1,5 @@
 .separator | 
+
 .import datFiles/items.dat Items
 update Items set BuyPrice = null where BuyPrice = "NULL"; 
 
